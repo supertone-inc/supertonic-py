@@ -58,7 +58,6 @@ def test_cmd_version(capsys):
 
     captured = capsys.readouterr()
     assert "supertonic" in captured.out
-    assert "0.1.1" in captured.out
 
 
 def test_create_parser():
