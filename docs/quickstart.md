@@ -21,7 +21,7 @@ pip install supertonic
     tts = TTS(auto_download=True)
 
     # Get a voice style
-    style = tts.get_voice_style(voice_name="M1")
+    style = tts.get_voice_style(voice_name="F3")
 
     # Generate speech
     text = "The train delay was announced at 4:45 PM on Wed, Apr 3, 2024 due to track maintenance."
