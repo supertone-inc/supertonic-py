@@ -1,0 +1,9 @@
+include README.md
+include LICENSE
+recursive-exclude tests *
+recursive-exclude examples *
+recursive-exclude docs *
+recursive-exclude notebook *
+recursive-exclude __pycache__ *
+recursive-exclude .pytest_cache *
+recursive-exclude .ruff_cache *

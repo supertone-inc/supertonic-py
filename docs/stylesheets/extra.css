@@ -1,0 +1,476 @@
+/* ========================================
+   Supertonic TTS - Custom Styles
+   Modern/Tech + Professional Design
+   ======================================== */
+
+/* ========================================
+   Custom Font - Euclid Circular B
+   ======================================== */
+
+@font-face {
+  font-family: 'Euclid Circular B';
+  src: url('../assets/fonts/EuclidCircularB.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --md-text-font: 'Euclid Circular B', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body {
+  font-family: var(--md-text-font);
+}
+
+/* ========================================
+   Custom Color Palette - Gold/Amber Theme
+   ======================================== */
+
+:root {
+  /* Primary - Transparent header */
+  --md-primary-fg-color: transparent;
+  --md-primary-fg-color--light: transparent;
+  --md-primary-fg-color--dark: transparent;
+  --md-primary-bg-color: transparent;
+  --md-primary-bg-color--light: transparent;
+
+  /* Accent - Gold/Amber */
+  --md-accent-fg-color: #F59E0B;
+  --md-accent-fg-color--transparent: rgba(245, 158, 11, 0.1);
+  --md-accent-bg-color: #F59E0B;
+  --md-accent-bg-color--light: rgba(245, 158, 11, 0.1);
+}
+
+/* ========================================
+   Light Mode - Transparent Header
+   ======================================== */
+
+[data-md-color-scheme="default"] {
+  /* Header styling */
+  --md-primary-fg-color: #ffffff;
+  --md-primary-bg-color: #ffffff;
+
+  /* Text colors for header */
+  --md-header-fg-color: #1a1a1a;
+
+  /* Link colors - darker gold for light backgrounds */
+  --md-typeset-a-color: #B45309;
+  --md-accent-fg-color: #B45309;
+}
+
+[data-md-color-scheme="default"] .md-header {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: none;
+}
+
+[data-md-color-scheme="default"] .md-header__title,
+[data-md-color-scheme="default"] .md-header__topic,
+[data-md-color-scheme="default"] .md-header-nav__button {
+  color: #1a1a1a;
+}
+
+[data-md-color-scheme="default"] .md-header .md-icon {
+  color: #1a1a1a;
+}
+
+[data-md-color-scheme="default"] .md-search__input {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #1a1a1a;
+}
+
+[data-md-color-scheme="default"] .md-search__input::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* ========================================
+   Dark Mode - Transparent Header
+   ======================================== */
+
+[data-md-color-scheme="slate"] {
+  /* Header styling */
+  --md-primary-fg-color: #1e1e1e;
+  --md-primary-bg-color: #1e1e1e;
+
+  /* Darker background for better contrast */
+  --md-default-bg-color: #0d1117;
+  --md-default-bg-color--light: #161b22;
+  --md-default-bg-color--lighter: #21262d;
+  --md-default-bg-color--lightest: #30363d;
+
+  /* Text colors for header */
+  --md-header-fg-color: #e6edf3;
+
+  /* Link colors - brighter gold for dark backgrounds */
+  --md-typeset-a-color: #FBBF24;
+  --md-accent-fg-color: #FBBF24;
+}
+
+[data-md-color-scheme="slate"] .md-header {
+  background-color: rgba(13, 17, 23, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+[data-md-color-scheme="slate"] .md-header__title,
+[data-md-color-scheme="slate"] .md-header__topic,
+[data-md-color-scheme="slate"] .md-header-nav__button {
+  color: #e6edf3;
+}
+
+[data-md-color-scheme="slate"] .md-header .md-icon {
+  color: #e6edf3;
+}
+
+[data-md-color-scheme="slate"] .md-search__input {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #e6edf3;
+}
+
+[data-md-color-scheme="slate"] .md-search__input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ========================================
+   Gold Accent Hover Effects
+   ======================================== */
+
+.md-nav__link:hover,
+.md-nav__link:focus {
+  color: var(--md-accent-fg-color);
+}
+
+.md-nav__link--active {
+  color: var(--md-accent-fg-color) !important;
+  font-weight: 600;
+}
+
+/* Tabs hover */
+.md-tabs__link:hover,
+.md-tabs__link:focus {
+  color: var(--md-accent-fg-color);
+}
+
+/* External link icon - DISABLED */
+/* Uncomment below to show external link icons */
+/*
+a:not(:has(svg)):not(.md-icon):not(.autorefs-external) {
+    align-items: center;
+
+    &[href^="//"]::after,
+    &[href^="http://"]::after,
+    &[href^="https://"]::after {
+        content: "";
+        width: 11px;
+        height: 11px;
+        margin-left: 4px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' stroke='gray' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z'/%3E%3Cpath fill-rule='evenodd' d='M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z'/%3E%3C/svg%3E");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        display: inline-block;
+    }
+}
+*/
+
+/* Hide external icon for internal links */
+a[href*="localhost"]::after,
+a[href*="127.0.0.1"]::after,
+a[href*="supertone-inc.github.io"]::after {
+    display: none !important;
+}
+
+/* Light mode: darker section titles (vLLM style) */
+body[data-md-color-scheme="default"] .md-nav__item--section > label.md-nav__link .md-ellipsis {
+  color: rgba(0, 0, 0, 0.7) !important;
+  font-weight: 700;
+}
+
+/* Dark mode: lighter section titles (vLLM style) */
+body[data-md-color-scheme="slate"] .md-nav__item--section > label.md-nav__link .md-ellipsis {
+  color: rgba(255, 255, 255, 0.75) !important;
+  font-weight: 700;
+}
+
+/* Custom admonitions (vLLM style) */
+:root {
+  --md-admonition-icon--important: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>');
+}
+
+/* Symbol type badges (mod, class, attr, meth, func) - match vLLM size */
+.md-typeset h1 code,
+.md-typeset h2 code,
+.md-typeset h3 code,
+.md-typeset h4 code {
+    font-size: 1em;
+    padding: 0.15em 0.6em;
+    font-weight: 700;
+}
+
+.md-typeset .admonition.important,
+.md-typeset details.important {
+  border-color: rgb(239, 85, 82);
+}
+
+.md-typeset .important > .admonition-title,
+.md-typeset .important > summary {
+  background-color: rgb(239, 85, 82, 0.1);
+}
+
+.md-typeset .important > .admonition-title::before,
+.md-typeset .important > summary::before {
+  background-color: rgb(239, 85, 82);
+  -webkit-mask-image: var(--md-admonition-icon--important);
+          mask-image: var(--md-admonition-icon--important);
+}
+
+/* Typography improvements (OpenAI Agents inspired) */
+.md-typeset p,
+.md-typeset li {
+    font-size: 16px;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+    font-weight: 600;
+}
+
+.md-typeset h1 code {
+    padding: 0;
+    background-color: transparent;
+}
+
+/* Code block improvements */
+.md-typeset pre > code {
+    font-size: 14px;
+}
+
+.md-typeset__table code {
+    font-size: 14px;
+}
+
+/* Content tabs styling (vLLM) */
+.md-typeset .tabbed-set {
+  border: 0.075rem solid var(--md-default-fg-color--light);
+  border-radius: 0.4rem;
+}
+
+.md-typeset .tabbed-content {
+  padding: 0 0.8em;
+}
+
+/* Admonitions styling */
+.md-typeset .admonition,
+.md-typeset details {
+  border: none;
+  border-radius: 0.4rem;
+  overflow: hidden;
+}
+
+/* Link styling */
+.md-content a {
+    text-decoration: none;
+}
+
+.md-content a:hover {
+    text-decoration: underline;
+}
+
+/* Code block copy button */
+.md-clipboard.md-icon {
+    color: #9e9e9e;
+}
+
+/* Scrollbar styling reset */
+.md-sidebar__scrollwrap {
+    scrollbar-color: auto !important;
+}
+
+/* Header adjustments */
+.md-header__title {
+    margin-left: 0 !important;
+    visibility: hidden !important;
+}
+
+/* ========================================
+   Custom Footer Styles
+   ======================================== */
+
+.md-footer {
+    background-color: var(--md-default-bg-color);
+    border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-footer-meta {
+    background-color: transparent;
+    padding: 1.2rem 0;
+}
+
+.md-footer-meta__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.md-footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.md-footer-logo {
+    display: flex;
+    align-items: center;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.md-footer-logo:hover {
+    opacity: 1;
+}
+
+.md-footer-logo img {
+    height: 24px;
+    width: auto;
+}
+
+.md-footer-copyright {
+    color: var(--md-default-fg-color--light);
+    font-size: 0.75rem;
+}
+
+.md-footer-copyright__highlight {
+    color: var(--md-default-fg-color--light);
+}
+
+.md-footer-copyright__highlight a {
+    color: var(--md-accent-fg-color);
+    text-decoration: none;
+}
+
+.md-footer-copyright__highlight a:hover {
+    text-decoration: underline;
+}
+
+.md-footer-links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.md-footer-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--md-default-fg-color--light);
+    font-size: 0.75rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.md-footer-icon {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+.md-footer-links a:hover {
+    color: var(--md-accent-fg-color);
+}
+
+@media screen and (max-width: 600px) {
+    .md-footer-meta__inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .md-footer-links {
+        justify-content: center;
+    }
+}
+/* ========================================
+   Custom Button Styles - Gold Theme
+   ======================================== */
+
+.md-typeset .md-button {
+    border-radius: 0.4rem;
+    font-weight: 600;
+    padding: 0.6em 1.4em;
+    padding: 0.4em 1.2em;
+}
+
+/* Primary button - Gold filled */
+.md-typeset .md-button--primary {
+    background-color: #F59E0B;
+    border-color: #F59E0B;
+    color: #0d1117 !important;
+}
+
+.md-typeset .md-button--primary:hover {
+    background-color: #FBBF24;
+    border-color: #FBBF24;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+    transform: translateY(-1px);
+}
+
+/* Dark mode adjustments */
+[data-md-color-scheme="slate"] .md-typeset .md-button--primary {
+    background-color: #FBBF24;
+    border-color: #FBBF24;
+    color: #0d1117 !important;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .md-button--primary:hover {
+    background-color: #FCD34D;
+    border-color: #FCD34D;
+    box-shadow: 0 4px 18px rgba(251, 191, 36, 0.5);
+}
+
+/* ========================================
+   Sidebar Title Override
+   ======================================== */
+
+/* Replace sidebar title with custom text */
+.md-nav--primary > .md-nav__title {
+    font-size: 0;
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.md-nav--primary > .md-nav__title::before {
+    content: "MENU";
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    background: white;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+    /* text-shadow: 0 0 30px rgba(103, 232, 249, 0.3); */
+}
+
+/* .md-nav--primary > .md-nav__title::after {
+    content: "Documentation";
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    display: block;
+} */
+
+/* Hide the original title content */
+.md-nav--primary > .md-nav__title > * {
+    display: none;
+}

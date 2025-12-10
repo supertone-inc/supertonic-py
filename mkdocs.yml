@@ -1,0 +1,177 @@
+site_name: supertonic-py
+site_description: Lightning-fast, on-device Text-to-Speech synthesis
+site_url: https://supertone-inc.github.io/supertonic-py/
+repo_url: https://github.com/supertone-inc/supertonic-py
+repo_name: supertone-inc/supertonic-py
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  logo: assets/images/logo_wide.png
+  favicon: assets/images/logo_square.png
+  palette:
+    scheme: slate
+    primary: custom
+    accent: custom
+  features:
+    # Navigation
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    # Tabs disabled: Using sidebar-only navigation for single-line header
+    # - navigation.tabs
+    # - navigation.tabs.sticky
+    # navigation.sections disabled: Allows accordion-style collapsible navigation
+    # - navigation.sections
+    - navigation.indexes
+    # navigation.expand disabled: Sections collapsed by default
+    # - navigation.expand
+    - navigation.top
+    # Search
+    - search.suggest
+    - search.highlight
+    - search.share
+    # TOC
+    - toc.follow
+    # Note: toc.integrate is disabled to show detailed TOC on the right (vLLM style)
+    # - toc.integrate
+    # Content
+    - content.code.copy
+    # - content.code.select
+    - content.code.annotate
+    - content.tabs.link
+    - content.action.edit
+  icon:
+    repo: fontawesome/brands/github
+
+hooks:
+  - docs/hooks/generate_api_ref.py
+  - docs/hooks/generate_cli_ref.py
+
+plugins:
+  - search
+  - autorefs
+  - meta
+  - glightbox
+  - minify:
+      minify_html: true
+      minify_js: true
+      minify_css: true
+      cache_safe: true
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            show_signature_annotations: true
+            separate_signature: true
+            heading_level: 2
+            members_order: source
+            show_if_no_docstring: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            group_by_category: false
+            show_category_heading: false
+            summary: true
+            docstring_section_style: table
+            show_docstring_examples: true
+            show_docstring_other_parameters: true
+            show_docstring_attributes: true
+            show_docstring_functions: true
+            show_docstring_classes: true
+            show_docstring_modules: true
+            signature_crossrefs: true
+            merge_init_into_class: true
+            show_overloads: true
+            show_bases: true
+            show_submodules: true
+            filters:
+              - "!^_"
+              - "!^__"
+          inventories:
+            - https://docs.python.org/3/objects.inv
+            - https://numpy.org/doc/stable/objects.inv
+
+markdown_extensions:
+  # Code highlighting
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path: .
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  # Content tabs
+  - pymdownx.tabbed:
+      alternate_style: true
+  # Admonitions
+  - admonition
+  - pymdownx.details
+  # Text formatting
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  # Emoji and icons
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  # Lists and tables
+  - tables
+  - def_list
+  - footnotes
+  # HTML and attributes
+  - attr_list
+  - md_in_html
+  # TOC
+  - toc:
+      permalink: true
+      toc_depth: 4
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/supertone-inc/supertonic-py
+      name: GitHub Repository
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/supertonic/
+      name: PyPI Package
+    - icon: fontawesome/solid/square-rss
+      link: https://huggingface.co/spaces/Supertone/supertonic
+      name: Live Demo
+
+nav:
+  - Intro: index.md
+  - Quick Start: quickstart.md
+  - Voices : voices.md
+  - Reference:
+    - API Reference:
+      - Overview: api/index.md
+      - pipeline: api/pipeline.md
+      - core: api/core.md
+      - loader: api/loader.md
+      - utils: api/utils.md
+      - config: api/config.md
+      - cli: api/cli.md
+    - CLI Reference:
+        - Overview: cli/README.md
+        - supertonic say: cli/say.md
+        - supertonic tts: cli/tts.md
+        - supertonic list-voices: cli/list-voices.md
+        - supertonic info: cli/info.md
+        - supertonic download: cli/download.md
+        - supertonic version: cli/version.md

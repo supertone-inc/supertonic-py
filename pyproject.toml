@@ -1,0 +1,92 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "supertonic"
+version = "0.1.1"
+description = "High-quality Text-to-Speech synthesis with ONNX Runtime"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Kim, Hyeongju", email = "hyeongju@supertone.ai"},
+    {name = "Yu, Yechan", email = "ato@supertone.ai"},
+    {name = "Lee, Juheon", email = "juheon@supertone.ai"},
+]
+maintainers = [
+    {name = "Supertone Inc.", email = "contact@supertone.ai"},
+]
+keywords = [
+    "tts",
+    "text-to-speech",
+    "speech-synthesis",
+    "onnx",
+    "deep-learning",
+    "audio",
+    "voice-synthesis",
+    "neural-tts",
+    "on-device",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "onnxruntime>=1.10.0",
+    "numpy>=1.21.0,<2.0",
+    "soundfile>=0.10.0",
+    "huggingface-hub>=0.10.0",
+]
+
+[project.optional-dependencies]
+playback = [
+    "sounddevice>=0.4.0",
+]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.0",
+    "ruff>=0.1.0",
+    "build>=1.0.0",
+    "twine>=4.0.0",
+]
+
+[project.urls]
+Repository = "https://github.com/supertone-inc/supertonic-py"
+Documentation = "https://supertone-inc.github.io/supertonic-py"
+
+[project.scripts]
+supertonic = "supertonic.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["supertonic*"]
+exclude = ["tests*", "examples*"]
+
+[tool.setuptools.package-data]
+supertonic = ["py.typed", "voice_styles/*.json"]
+
+[tool.setuptools.dynamic]
+version = {attr = "supertonic.__version__"}
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311", "py312"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"

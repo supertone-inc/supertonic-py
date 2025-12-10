@@ -1,0 +1,5 @@
+# Core dependencies for Supertonic TTS
+onnxruntime>=1.10.0
+numpy>=1.21.0,<2.0
+soundfile>=0.10.0
+huggingface-hub>=0.10.0
