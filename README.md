@@ -8,7 +8,6 @@
 [![GitHub](https://img.shields.io/badge/GitHub-supertonic--py-black?logo=github)](https://github.com/supertone-inc/supertonic-py)
 [![Demo](https://img.shields.io/badge/🤗%20Hugging%20Face-Demo-yellow)](https://huggingface.co/spaces/Supertone/supertonic)
 [![Models](https://img.shields.io/badge/🤗%20Hugging%20Face-Models-blue)](https://huggingface.co/Supertone/supertonic)
-[![PyPI version](https://badge.fury.io/py/supertonic.svg)](https://badge.fury.io/py/supertonic)
 [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/supertone-inc/supertonic-py/blob/main/notebook/supertonic_demo.ipynb)
 [![Docs](https://img.shields.io/badge/Docs-supertonic--py-orange?logo=readthedocs&logoColor=white)](https://supertone-inc.github.io/supertonic-py)
 
