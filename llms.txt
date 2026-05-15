@@ -1,0 +1,90 @@
+# Supertonic
+
+> Supertonic is a Python package for on-device text-to-speech synthesis using ONNX Runtime — runs on CPU, supports 31 ISO languages (via the default supertonic-3 model) plus a `"na"` fallback for unknown text, and downloads ONNX weights from Hugging Face Hub on first use.
+
+Supertonic exposes three released model families under one package: `supertonic` (English-only v1), `supertonic-2` (5 languages), and `supertonic-3` (31 languages plus the `"na"` unknown-language fallback, default). All three run via ONNX Runtime on CPU; no GPU is required. The first call to `TTS(auto_download=True)` downloads ~400 MB of ONNX weights and voice-style JSON into `~/.cache/supertonic3/` (or the corresponding cache dir for the chosen model). Each package release pins the Hugging Face Hub commit SHA per model (see `supertonic.config.MODEL_CONFIGS`), so two installs of the same `supertonic==X.Y.Z` always download identical model artifacts; `SUPERTONIC_MODEL_REVISION` overrides this for development.
+
+The package surface is small: a `supertonic.TTS` class with `get_voice_style`, `get_voice_style_from_path`, `synthesize`, `__call__`, and `save_audio`; a `supertonic` CLI with `tts`, `say`, `list-voices`, `info`, `download`, and `version` subcommands. Out of the box it ships 10 built-in voices (`M1`–`M5` male, `F1`–`F5` female) and accepts custom voice-style JSON exports from the Supertone Voice Builder web app via `tts.get_voice_style_from_path()` / `--custom-style-path` for zero-shot voice cloning from a short reference clip.
+
+The Python code is released under MIT. The model weights downloaded from Hugging Face Hub are released under OpenRAIL-M, which imposes use-based restrictions (notably on deception and non-consensual voice cloning) that are NOT covered by MIT. Anyone embedding this package in a product is responsible for honoring both licenses and for any synthetic-speech-disclosure obligations in their jurisdiction.
+
+Important context for LLMs:
+- Python package name: `supertonic` (`pip install supertonic`)
+- Import name: `supertonic`
+- Current version: `1.2.2`
+- Default model: `supertonic-3` (multilingual, 31 ISO codes + `"na"` fallback)
+- Available models: `supertonic` (English only), `supertonic-2` (5 languages), `supertonic-3` (31 languages, default)
+- Built-in voices: 10 — `M1`, `M2`, `M3`, `M4`, `M5`, `F1`, `F2`, `F3`, `F4`, `F5`
+- Custom voices: load a Voice Builder JSON export via `TTS.get_voice_style_from_path(path)` (Python) or `--custom-style-path PATH` (CLI). Default built-in JSONs live at `~/.cache/supertonic3/voice_styles/{M1..M5,F1..F5}.json` after first download
+- Default values changed in 1.2.2 (soft break, documented in CHANGELOG): `total_steps` 5 → 8; `lang` default no longer hard-coded — resolves to `"na"` for supertonic-2/3 and `"en"` for supertonic v1
+- Sample rate / audio format: WAV files written by `TTS.save_audio` at the loaded model's native sample rate (exposed as `tts.sample_rate`); single-channel
+- Maximum text per call: 100,000 characters (`MAX_TEXT_LENGTH`); longer inputs should be chunked at the application level
+- Package license: MIT (Python source). Model license: OpenRAIL-M (ONNX weights on Hugging Face Hub) — they are distinct licenses with different obligations
+- Model distribution: Hugging Face Hub — `Supertone/supertonic`, `Supertone/supertonic-2`, `Supertone/supertonic-3`. Per-release SHA pinning lives in `supertonic/config.py:MODEL_CONFIGS`. `SUPERTONIC_MODEL_REVISION` env var overrides per-call
+- Cache location: `~/.cache/supertonic3/` (or `supertonic2`, `supertonic`); overridable with `SUPERTONIC_CACHE_DIR`
+- Supported Python versions: 3.9, 3.10, 3.11, 3.12
+- Platforms: Linux, macOS, Windows — CI matrix runs all three (`.github/workflows/test.yml`)
+- Hardware: CPU only via ONNX Runtime; thread counts auto-tuned, overridable with `SUPERTONIC_INTRA_OP_THREADS` / `SUPERTONIC_INTER_OP_THREADS`
+- Optional dependencies: `supertonic[playback]` adds `sounddevice` so `supertonic say` can play audio directly
+
+Usage guidance:
+- Use this package for: scripted or batched offline TTS, on-device synthesis where cloud calls are undesirable, embedding TTS into CPU-bound services, prototyping zero-shot voice clones from short reference clips via Voice Builder.
+- Do **NOT** assume support for: real-time streaming, GPU acceleration, model training or fine-tuning, audio formats other than WAV out of the box, languages outside the documented 31 ISO codes (use `"na"` as a fallback instead of guessing a code).
+- Prefer the public API surface — `supertonic.TTS`, `supertonic.Style`, `supertonic.UnicodeProcessor`, `supertonic.AVAILABLE_LANGUAGES`, `supertonic.AVAILABLE_MODELS`, `supertonic.DEFAULT_LANGUAGE`, `supertonic.DEFAULT_MODEL`, `supertonic.SUPPORTED_LANGUAGES`, `supertonic.UNKNOWN_LANGUAGE` (listed in `supertonic/__init__.py:__all__`) — over reaching into `supertonic.core` / `supertonic.loader` / `supertonic.utils` internals.
+- For voice cloning via Voice Builder: the user is responsible for (a) obtaining informed consent from the source speaker and (b) any synthetic-speech-disclosure obligations in their deployment jurisdiction (e.g. EU AI Act art. 50). The OpenRAIL-M license further restricts deceptive use.
+- When generating code samples, prefer the canonical snippet in the Quickstart docs (linked below). Default-value changes landed in 1.2.2 — confirm the package version before recommending older snippets.
+- Performance numbers published in the docs were measured at 2-step inference (or 5-step in the expandable section). With the new default 8-step inference, expect lower characters/second and higher RTF than the headline table — re-benchmark if quoting numbers to users.
+
+## Start here
+
+- [Documentation overview](https://supertone-inc.github.io/supertonic-py/): the docs landing page — feature summary, supported-language table, performance benchmarks vs. ElevenLabs / OpenAI / Gemini / Kokoro / NeuTTS Air, natural-text-handling cases, and citation entries.
+- [Quickstart](https://supertone-inc.github.io/supertonic-py/quickstart/): installation, the canonical inline-commented Python snippet, CLI examples, multilingual examples, voice-style selection, speech-speed control, long-text chunking, text validation, and thread configuration.
+- [Voices](https://supertone-inc.github.io/supertonic-py/voices/): the 10 built-in voices (M1–M5 male, F1–F5 female) with descriptions, recommended use cases, and audio samples.
+- [Examples directory (GitHub)](https://github.com/supertone-inc/supertonic-py/tree/main/examples): 9 runnable scripts — `test1_simple.py` (minimal synthesis), `test2_voices.py` (iterate all voices), `test3_quality.py` (steps sweep), `test4_custom_reference.py` (4-voice comparison), `test5_speed_control.py`, `test6_long_text.py`, `test7_text_validation.py`, `test8_verbose_mode.py`, `test9_multilingual.py`.
+- [Colab notebook](https://colab.research.google.com/github/supertone-inc/supertonic-py/blob/main/notebook/supertonic_demo.ipynb): in-browser walkthrough.
+- [Hugging Face Space (live demo)](https://huggingface.co/spaces/Supertone/supertonic-3): try synthesis in a browser without installing the package.
+
+## Python API
+
+- [API reference overview](https://supertone-inc.github.io/supertonic-py/api/): copy-paste annotated `TTS.synthesize(...)` call with every parameter explained inline, plus links to each module.
+- [`pipeline` module](https://supertone-inc.github.io/supertonic-py/api/pipeline/): the high-level `TTS` class — constructor, `get_voice_style(name)`, `get_voice_style_from_path(path)`, `synthesize(text, voice_style, total_steps=8, speed=1.05, max_chunk_length=None, silence_duration=0.3, lang=None, verbose=False)`, `__call__` shorthand, `save_audio(wav, path)`, attributes `voice_style_names`, `is_multilingual`, `model_dir`, `sample_rate`.
+- [`core` module](https://supertone-inc.github.io/supertonic-py/api/core/): lower-level `Supertonic`, `Style`, and `UnicodeProcessor` types — text preprocessing, language-token wrapping (`<en>…</en>` / `<na>…</na>`), ONNX session lifecycle.
+- [`loader` module](https://supertone-inc.github.io/supertonic-py/api/loader/): model and voice-style loading utilities — `load_model`, `load_voice_style_from_name`, `load_voice_style_from_json_file`, `list_available_voice_style_names`, `get_cache_dir`, `has_all_onnx_modules`, `download_model`.
+- [`utils` module](https://supertone-inc.github.io/supertonic-py/api/utils/): `chunk_text` for long-form splitting and `validate_voice_style_format` for JSON schema checking.
+- [`config` module](https://supertone-inc.github.io/supertonic-py/api/config/): public constants — `AVAILABLE_MODELS`, `AVAILABLE_LANGUAGES`, `DEFAULT_MODEL`, `DEFAULT_LANGUAGE`, `UNKNOWN_LANGUAGE`, `SUPPORTED_LANGUAGES`, `MODEL_CONFIGS` (per-model HF revision pins live here since 1.2.2), plus `get_model_config`, `get_model_repo`, `get_model_revision`, `get_model_cache_dir`, `is_multilingual_model`.
+- [`cli` module](https://supertone-inc.github.io/supertonic-py/api/cli/): argparse-based CLI implementation if you want to embed it programmatically.
+
+## CLI
+
+- [CLI overview](https://supertone-inc.github.io/supertonic-py/cli/README/): all subcommands, shared options, quality and speed knobs.
+- [`supertonic tts`](https://supertone-inc.github.io/supertonic-py/cli/tts/): synthesize text and save to a WAV file (`-o output.wav`).
+- [`supertonic say`](https://supertone-inc.github.io/supertonic-py/cli/say/): synthesize and play directly via `sounddevice` (requires the `[playback]` extra).
+- [`supertonic list-voices`](https://supertone-inc.github.io/supertonic-py/cli/list-voices/): print the 10 built-in voice names that ship with the model.
+- [`supertonic info`](https://supertone-inc.github.io/supertonic-py/cli/info/): show loaded model metadata and cache locations.
+- [`supertonic download`](https://supertone-inc.github.io/supertonic-py/cli/download/): explicitly trigger the ~400 MB model download (useful for CI / Docker prewarming).
+- [`supertonic version`](https://supertone-inc.github.io/supertonic-py/cli/version/): print the installed package version.
+
+## Model information
+
+- [Supported languages](https://supertone-inc.github.io/supertonic-py/#supported-languages): the 31 ISO codes for supertonic-3 plus the `"na"` fallback, in a single table on the docs landing page.
+- [Built-in voices](https://supertone-inc.github.io/supertonic-py/voices/): 10 voices (M1–M5, F1–F5) with use-case guidance and per-voice audio samples.
+- [Performance benchmarks](https://supertone-inc.github.io/supertonic-py/#performance): characters-per-second and real-time-factor on M4 Pro CPU / M4 Pro WebGPU / RTX 4090 against ElevenLabs Flash v2.5, OpenAI TTS-1, Gemini 2.5 Flash TTS, Supertone Sona, Kokoro, NeuTTS Air. Headline numbers are at 2-step inference; the 5-step block sits in the expandable section. Default in 1.2.2+ is 8-step — re-benchmark before quoting.
+- [Natural text handling](https://supertone-inc.github.io/supertonic-py/#natural-text-handling): how Supertonic compares on financial expressions, time/date, phone numbers, and technical units.
+- [Citation](https://supertone-inc.github.io/supertonic-py/#citation): the three arXiv papers to cite — SupertonicTTS (architecture, 2503.23108), LARoPE (text-speech alignment, 2509.11084), Self-Purifying Flow Matching (training under noisy labels, 2509.19091).
+
+## Safety, policy, and license
+
+- [Security policy (SECURITY.md)](https://github.com/supertone-inc/supertonic-py/blob/main/SECURITY.md): how to report vulnerabilities privately to `contact@supertone.ai`, supported-version table, in-scope and out-of-scope reports.
+- [Package license — MIT](https://github.com/supertone-inc/supertonic-py/blob/main/LICENSE): governs the Python source code in this repository only.
+- [Model license — OpenRAIL-M](https://huggingface.co/Supertone/supertonic-3/blob/main/LICENSE): governs the ONNX weights downloaded from Hugging Face Hub. Imposes use-based restrictions, notably on deception, harassment, and non-consensual voice cloning. **MIT and OpenRAIL-M are separate license obligations — both apply to any product that ships this package.**
+- Voice cloning: this package can load Voice Builder JSON exports for zero-shot cloning from a short reference clip. Anyone deploying this capability is responsible for obtaining informed consent from the source speaker and for complying with synthetic-speech-disclosure obligations in their jurisdiction (e.g. EU AI Act art. 50). A formal `docs/responsible-use.md` is in preparation; it is **not yet published**, so for now treat the OpenRAIL-M license terms as the binding rules.
+
+## Development and release
+
+- [GitHub repository](https://github.com/supertone-inc/supertonic-py): source, issues, releases.
+- [Upstream main repo (other language bindings)](https://github.com/supertone-inc/supertonic): C++, Swift, Java, Go, Rust, Flutter, Node.js bindings for the same model family.
+- [PyPI page](https://pypi.org/project/supertonic/): published distributions and PyPI metadata.
+- [Changelog](https://github.com/supertone-inc/supertonic-py/blob/main/CHANGELOG.md): version history. Includes the **soft-break notice for 1.2.2** (default `total_steps` 5 → 8, default `lang` model-aware) and the per-model pinned Hugging Face SHAs for reproducibility.
+- [Hugging Face Hub — supertonic-3](https://huggingface.co/Supertone/supertonic-3): the default model artifacts and OpenRAIL-M license text.
+- [Hugging Face Hub — supertonic-2](https://huggingface.co/Supertone/supertonic-2): 5-language predecessor.
+- [Hugging Face Hub — supertonic (v1)](https://huggingface.co/Supertone/supertonic): English-only v1.
