@@ -23,7 +23,7 @@ def generate_api_docs():
     API_DIR.mkdir(parents=True, exist_ok=True)
 
     # Module configurations - these will generate detailed module pages
-    modules = ["pipeline", "core", "loader", "utils", "config", "cli"]
+    modules = ["pipeline", "core", "loader", "utils", "config", "cli", "server"]
 
     # index.md is manually maintained (vLLM style with autorefs links)
     # No need to auto-generate it
