@@ -1,3 +1,7 @@
+> **This repository is archived. Development and support have ended.**
+>
+> The code remains available for reference under the terms of the [LICENSE](./LICENSE). No updates, bug fixes, security patches, or support will be provided, and issues and pull requests are no longer monitored. The software is provided "AS IS" as set forth in the license, without any warranty or ongoing responsibility of the original authors.
+
 # Supertonic 3 — Lightning Fast, On-Device TTS
 
 <p align="center">
